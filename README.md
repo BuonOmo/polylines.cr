@@ -15,11 +15,11 @@ With a MacBook pro 1,4 GHz i5, here's the result:
 ```
 ——————————————————————————————— ENCODING ————————————————————————————————
 
-CrystalPolylines 140.02k (  7.14µs) (± 7.16%)  14.2kB/op  fastest
+CrystalPolylines 135.90k (  7.36µs) (±10.02%)  14.2kB/op  fastest
 
 ———————————————————————————————  DECODING ————————————————————————————————
 
-CrystalPolylines 415.10k (  2.41µs) (± 5.97%)  8.38kB/op  fastest
+CrystalPolylines   1.32M (755.72ns) (± 4.76%)  1.62kB/op  fastest
 ```
 
 ## Installation

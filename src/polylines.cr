@@ -1,5 +1,6 @@
 struct Location
-  property lat, lng
+  getter lat
+  getter lng
 
   def initialize(@lat : Float64, @lng : Float64)
   end
@@ -48,13 +49,13 @@ module Polylines
   end
 
   private def encode_unsigned_number(num)
-    encoded = String::Builder.new
-    while num >= 0x20
-      encoded << ((0x20 | (num & 0x1f)) + 63).chr
-      num = num >> 5
+    String.build do |io|
+      while num >= 0x20
+        io << ((0x20 | (num & 0x1f)) + 63).chr
+        num = num >> 5
+      end
+      io << (num + 63).chr
     end
-    encoded << (num + 63).chr
-    encoded.to_s
   end
 
   def decode(polyline : String, precision = 5)
@@ -66,7 +67,7 @@ module Polylines
     lng = 0_i64
     coords = [] of Location
 
-    polyline.each_byte.map do |byte|
+    polyline.each_byte do |byte|
       chunk = byte.to_i64
       unless 63 <= chunk <= 126
         raise ArgumentError.new("Invalid character '#{chunk.chr}'.")
@@ -88,7 +89,7 @@ module Polylines
         shift = 0
         both_coords = !both_coords
       end
-    end.to_a
+    end
     coords
   end
 end
