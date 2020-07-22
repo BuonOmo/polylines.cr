@@ -1,9 +1,9 @@
 # Crystal Lang Polylines
 
 
-[![Release](https://img.shields.io/github/release/BuonOmo/polylines.svg)](https://github.com/BuonOmo/polylines/releases)
-[![Build Status](https://travis-ci.org/BuonOmo/polylines.svg?branch=master)](https://travis-ci.org/BuonOmo/polylines)
-[![Docs](https://img.shields.io/badge/docs-available-brightgreen.svg)](https://buonomo.github.io/polylines/)
+[![Release](https://img.shields.io/github/release/BuonOmo/polylines.cr.svg)](https://github.com/BuonOmo/polylines.cr/releases)
+[![Build Status](https://travis-ci.org/BuonOmo/polylines.cr.svg?branch=master)](https://travis-ci.org/BuonOmo/polylines.cr)
+[![Docs](https://img.shields.io/badge/docs-available-brightgreen.svg)](https://buonomo.github.io/polylines.cr/)
 
 
 A Crystal implementation of the [Google polyline algorithm](https://code.google.com/apis/maps/documentation/utilities/polylinealgorithm.html).
@@ -32,7 +32,7 @@ Add the dependency to your `shard.yml`:
 ```yaml
 dependencies:
   polylines:
-    github: BuonOmo/polylines
+    github: BuonOmo/polylines.cr
 ```
 
 Run `shards install`
@@ -52,7 +52,7 @@ Polylines.encode([[12.1232493, 2.9481493], [13.8474392, 16.8373924]], 7)
 
 ## Contributing
 
-1. Fork it ([BuonOmo/polylines/fork](https://github.com/BuonOmo/polylines/fork))
+1. Fork it ([BuonOmo/polylines.cr/fork](https://github.com/BuonOmo/polylines.cr/fork))
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)

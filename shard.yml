@@ -3,8 +3,8 @@ version: 0.1.0
 description: |
   Geographic line (serie of locations) compression algorithm.
 
-repository: https://github.com/BuonOmo/polylines
-homepage: https://github.com/BuonOmo/polylines#readme
+repository: https://github.com/BuonOmo/polylines.cr
+homepage: https://github.com/BuonOmo/polylines.cr#readme
 documentation:
 
 authors:
