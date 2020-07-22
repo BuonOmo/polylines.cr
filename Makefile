@@ -13,6 +13,11 @@ bin/benchmark: perf/benchmark.cr $(SOURCES)
 benchmark: bin/benchmark
 	./$<
 
+.PHONY: doc
+doc:
+	crystal docs
+	python3 -m http.server --directory docs
+
 .PHONY: clean
 clean:
 	rm -rf bin

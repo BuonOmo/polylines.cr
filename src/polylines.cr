@@ -1,36 +1,33 @@
-struct Location
-  getter lat
-  getter lng
-
-  def initialize(@lat : Float64, @lng : Float64)
-  end
-
-  def to_a
-    [lat, lng]
-  end
-
-  def [](index)
-    case index
-    when 0 then lat
-    when 1 then lng
-    else
-      raise IndexError.new
-    end
-  end
-end
-
+# Encode and decode Google Polylines. To use it:
+#
+# ```
+# Polylines.encode([[38.5, -120.2], [40.7, -120.95], [43.252, -126.453]]) # => "_p~iF~ps|U_ulLnnqC_mqNvxq`@"
+# Polylines.decode("_p~iF~ps|U_ulLnnqC_mqNvxq`@")                         # => [{38.5, -120.2}, {40.7, -120.95}, {43.252, -126.453}]
+# ```
+#
+# You can also set precision in both methods as the second positionnal argument
+# It will correspond to the number of values after the comma.
+#
+# Please **do not** set precision to more than 10...
+#
+# [![40 digits: You are optimistic about our understanding of the nature of distance itself.](https://imgs.xkcd.com/comics/coordinate_precision.png)](https://www.explainxkcd.com/wiki/index.php/2170:_Coordinate_Precision)
 module Polylines
   VERSION = "0.1.0"
 
   extend self
 
-  def encode(points : Array, precision = 5)
+  alias Location = {lat: Float64, lng: Float64}
+
+  # Encode an array of tuple `{lat:, lng:}` to a polyline string.
+  # The `precision` corresponds to the number of values after the
+  # comma, usually between 0 and 9
+  def encode(points : Array(Location), precision : UInt8 = 5) : String
     precision = 10.0 ** precision
     result = String::Builder.new
     last_lat = last_lng = 0
     points.each do |point|
-      lat = (point[0] * precision).round.to_i64
-      lng = (point[1] * precision).round.to_i64
+      lat = (point[:lat] * precision).round.to_i64
+      lng = (point[:lng] * precision).round.to_i64
       d_lat = lat - last_lat
       d_lng = lng - last_lng
       chunks_lat = encode_number(d_lat)
@@ -45,20 +42,19 @@ module Polylines
   private def encode_number(num)
     sgn_num = num << 1
     sgn_num = ~sgn_num if num < 0
-    encode_unsigned_number(sgn_num)
-  end
-
-  private def encode_unsigned_number(num)
     String.build do |io|
-      while num >= 0x20
-        io << ((0x20 | (num & 0x1f)) + 63).chr
-        num = num >> 5
+      while sgn_num >= 0x20
+        io << ((0x20 | (sgn_num & 0x1f)) + 63).chr
+        sgn_num = sgn_num >> 5
       end
-      io << (num + 63).chr
+      io << (sgn_num + 63).chr
     end
   end
 
-  def decode(polyline : String, precision = 5)
+  # Decode a polyline string to an array of tuple `{lat:, lng:}`.
+  # The `precision` corresponds to the number of values after the
+  # comma, usually between 0 and 9.
+  def decode(polyline : String, precision : UInt8 = 5) : Array(Location)
     precision = 10.0 ** precision
     delta = 0_i64
     shift = 0
@@ -81,7 +77,7 @@ module Polylines
         delta = delta & 1 == 0 ? delta >> 1 : ~(delta >> 1)
         if both_coords
           lng += delta
-          coords << Location.new(lat / precision, lng / precision)
+          coords << {lat: lat / precision, lng: lng / precision}
         else
           lat += delta
         end
