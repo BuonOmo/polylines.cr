@@ -11,18 +11,18 @@ A Crystal implementation of the [Google polyline algorithm](https://code.google.
 Greatly inspired by the Ruby implementation [fast-polylines](https://github.com/klaxit/fast-polylines), it is mostly
 existing for performance comparison between Ruby C extensions and Crystal!
 
-If you are curious: encoding is slower in crystal, but decoding is roughly the same.
+If you are curious: encoding is roughly the same, decoding is way faster in Crystal.
 If you are even more curious, `make benchmark` here and in [fast-polylines](https://github.com/klaxit/fast-polylines) 😉.
 With a MacBook pro 1,4 GHz i5, here's the result:
 
 ```text
 ——————————————————————————————— ENCODING ————————————————————————————————
 
-CrystalPolylines 145.17k (  6.89µs) (± 3.53%)  14.2kB/op  fastest
+CrystalPolylines 706.82k (  1.41µs) (± 4.42%)  466B/op  fastest
 
 ———————————————————————————————  DECODING ————————————————————————————————
 
-CrystalPolylines   1.32M (756.06ns) (± 3.74%)  1.62kB/op  fastest
+CrystalPolylines   1.43M (699.73ns) (± 3.21%)  1.62kB/op  fastest
 ```
 
 ## Installation

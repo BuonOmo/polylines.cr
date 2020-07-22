@@ -22,33 +22,32 @@ module Polylines
   # The `precision` corresponds to the number of values after the
   # comma, usually between 0 and 9
   def encode(points : Array(Location), precision : UInt8 = 5) : String
-    precision = 10.0 ** precision
-    result = String::Builder.new
-    last_lat = last_lng = 0
-    points.each do |point|
-      lat = (point[:lat] * precision).round.to_i64
-      lng = (point[:lng] * precision).round.to_i64
-      d_lat = lat - last_lat
-      d_lng = lng - last_lng
-      chunks_lat = encode_number(d_lat)
-      chunks_lng = encode_number(d_lng)
-      result << chunks_lat << chunks_lng
-      last_lat = lat
-      last_lng = lng
+    # Allocate usually a little bit too much, but avoids having to
+    # realloc a lot.
+    estimated_polyline_size = points.size * precision * 2
+    String.build(estimated_polyline_size) do |io|
+      precision = 10.0 ** precision
+      last_lat = last_lng = 0
+      points.each do |point|
+        lat = (point[:lat] * precision).round.to_i64
+        lng = (point[:lng] * precision).round.to_i64
+        encode_number(lat - last_lat, io)
+        encode_number(lng - last_lng, io)
+        last_lat = lat
+        last_lng = lng
+      end
     end
-    result.to_s
   end
 
-  private def encode_number(num)
+  private def encode_number(num, io)
     sgn_num = num << 1
     sgn_num = ~sgn_num if num < 0
-    String.build do |io|
-      while sgn_num >= 0x20
-        io << ((0x20 | (sgn_num & 0x1f)) + 63).chr
-        sgn_num = sgn_num >> 5
-      end
-      io << (sgn_num + 63).chr
+    while sgn_num >= 0x20
+      io << ((0x20 | (sgn_num & 0x1f)) + 63).chr
+      sgn_num = sgn_num >> 5
     end
+    io << (sgn_num + 63).chr
+    nil
   end
 
   # Decode a polyline string to an array of tuple `{lat:, lng:}`.
