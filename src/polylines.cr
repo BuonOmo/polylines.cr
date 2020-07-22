@@ -17,7 +17,7 @@
 #
 # [![40 digits: You are optimistic about our understanding of the nature of distance itself.](https://imgs.xkcd.com/comics/coordinate_precision.png)](https://www.explainxkcd.com/wiki/index.php/2170:_Coordinate_Precision)
 module Polylines
-  VERSION = "0.1.0"
+  VERSION = "0.2.0"
 
   extend self
 
