@@ -1,4 +1,11 @@
 SOURCES := $(shell find src -name '*.cr')
+OPERATING_SYSTEM := $(shell uname)
+
+ifeq ($(OPERATING_SYSTEM),Darwin)
+	OPEN ?= open
+else
+	OPEN ?= xdg-open
+endif
 
 .PHONY: test
 test:
@@ -16,7 +23,13 @@ benchmark: bin/benchmark
 .PHONY: doc
 doc:
 	crystal docs
-	python3 -m http.server --directory docs
+	$(OPEN) http://127.0.0.1:8000/
+	python3 -m http.server --directory docs 8000
+
+.PHONY: play
+play:
+	$(OPEN) http://127.0.0.1:8080/workbook/playground/polylines
+	crystal play
 
 .PHONY: clean
 clean:

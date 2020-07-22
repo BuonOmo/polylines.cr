@@ -1,8 +1,13 @@
 # Encode and decode Google Polylines. To use it:
 #
 # ```
-# Polylines.encode([[38.5, -120.2], [40.7, -120.95], [43.252, -126.453]]) # => "_p~iF~ps|U_ulLnnqC_mqNvxq`@"
-# Polylines.decode("_p~iF~ps|U_ulLnnqC_mqNvxq`@")                         # => [{38.5, -120.2}, {40.7, -120.95}, {43.252, -126.453}]
+# Polylines.encode([{lat: 38.5, lng: -120.2}, {lat: 40.7, lng: -120.95}])
+# Polylines.encode([[38.5, -120.2], [40.7, -120.95]])
+# Polylines.encode([{38.5, -120.2}, {40.7, -120.95}])
+# # => "_p~iF~ps|U_ulLnnqC"
+#
+# Polylines.decode("_p~iF~ps|U_ulLnnqC")
+# # => [{lat: 38.5, lng: -120.2}, {lat: 40.7, lng: -120.95}]
 # ```
 #
 # You can also set precision in both methods as the second positionnal argument
@@ -16,39 +21,12 @@ module Polylines
 
   extend self
 
-  alias Location = {lat: Float64, lng: Float64}
-
-  # Encode an array of tuple `{lat:, lng:}` to a polyline string.
-  # The `precision` corresponds to the number of values after the
-  # comma, usually between 0 and 9
-  def encode(points : Array(Location), precision : UInt8 = 5) : String
-    # Allocate usually a little bit too much, but avoids having to
-    # realloc a lot.
-    estimated_polyline_size = points.size * precision * 2
-    String.build(estimated_polyline_size) do |io|
-      precision = 10.0 ** precision
-      last_lat = last_lng = 0
-      points.each do |point|
-        lat = (point[:lat] * precision).round.to_i64
-        lng = (point[:lng] * precision).round.to_i64
-        encode_number(lat - last_lat, io)
-        encode_number(lng - last_lng, io)
-        last_lat = lat
-        last_lng = lng
-      end
-    end
-  end
-
-  private def encode_number(num, io)
-    sgn_num = num << 1
-    sgn_num = ~sgn_num if num < 0
-    while sgn_num >= 0x20
-      io << ((0x20 | (sgn_num & 0x1f)) + 63).chr
-      sgn_num = sgn_num >> 5
-    end
-    io << (sgn_num + 63).chr
-    nil
-  end
+  # The default location that will be given by `Polylines.decode`.
+  alias Location = NamedTuple(lat: Float64, lng: Float64)
+  # The first item must be the lat, and second must be lng.
+  alias LatLngLocation = Tuple(Float64, Float64) | Array(Float64)
+  # Allows more types to be passed to `Polylines.encode`.
+  alias LooseLocation = Location | LatLngLocation
 
   # Decode a polyline string to an array of tuple `{lat:, lng:}`.
   # The `precision` corresponds to the number of values after the
@@ -86,5 +64,52 @@ module Polylines
       end
     end
     coords
+  end
+
+  # Encode an array of tuple `{lat:, lng:}` to a polyline string.
+  # The `precision` corresponds to the number of values after the
+  # comma, usually between 0 and 9
+  def encode(points : Array(LooseLocation), precision : UInt8 = 5) : String
+    # Allocate usually a little bit too much, but avoids having to
+    # realloc a lot.
+    estimated_polyline_size = points.size * precision * 2
+    String.build(estimated_polyline_size) do |io|
+      precision = 10.0 ** precision
+      last_lat = last_lng = 0_i64
+      points.each do |point|
+        lat = (lat(point) * precision).round.to_i64
+        lng = (lng(point) * precision).round.to_i64
+        encode_number(lat - last_lat, io)
+        encode_number(lng - last_lng, io)
+        last_lat = lat
+        last_lng = lng
+      end
+    end
+  end
+
+  private def encode_number(num, io) : Nil
+    sgn_num = num << 1
+    sgn_num = ~sgn_num if num < 0
+    while sgn_num >= 0x20
+      io << ((0x20 | (sgn_num & 0x1f)) + 63).chr
+      sgn_num = sgn_num >> 5
+    end
+    io << (sgn_num + 63).chr
+  end
+
+  private def lat(point : Location)
+    point[:lat]
+  end
+
+  private def lng(point : Location)
+    point[:lng]
+  end
+
+  private def lat(point : LatLngLocation)
+    point[0]
+  end
+
+  private def lng(point : LatLngLocation)
+    point[1]
   end
 end

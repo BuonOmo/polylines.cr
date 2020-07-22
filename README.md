@@ -42,12 +42,19 @@ Run `shards install`
 ```crystal
 require "polylines"
 
-# Polylines.encode(array, precision = 5)
-Polylines.encode([[38.5, -120.2], [40.7, -120.95], [43.252, -126.453]])
-# Polylines.decode(polyline, precision = 5)
-Polylines.decode("_p~iF~ps|U_ulLnnqC_mqNvxq`@")
+Polylines.encode([{lat: 38.5, lng: -120.2}, {lat: 40.7, lng: -120.95}])
+Polylines.encode([[38.5, -120.2], [40.7, -120.95]])
+Polylines.encode([{38.5, -120.2}, {40.7, -120.95}])
+# => "_p~iF~ps|U_ulLnnqC"
 
-Polylines.encode([[12.1232493, 2.9481493], [13.8474392, 16.8373924]], 7)
+Polylines.decode("_p~iF~ps|U_ulLnnqC")
+# => [{lat: 38.5, lng: -120.2}, {lat: 40.7, lng: -120.95}]
+
+Polylines.encode([{lat: 12.1232493, lng: 2.9481493}, {lat: 13.8474392, lng: 16.8373924}], 7)
+# => "yemffFi`lfw@uqj{_@}gi|gG"
+
+Polylines.decode("yemffFi`lfw@uqj{_@}gi|gG", 7)
+# => [{lat: 12.1232493, lng: 2.9481493}, {lat: 13.8474392, lng: 16.8373924}]
 ```
 
 ## Contributing
