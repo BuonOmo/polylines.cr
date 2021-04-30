@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.36.1">
+<meta name="crystal_docs.project_version" content="0.2.0">
+<meta name="crystal_docs.project_name" content="polylines">
+
+
+
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/doc.js"></script>
+
+  <meta name="repository-name" content="polylines">
+  <title>Polylines - polylines 0.2.0</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="index.html">
+          polylines
+        </a>
+      </h1>
+
+      <span class="project-version">
+        0.2.0
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="polylines/Polylines" data-name="polylines">
+      <a href="Polylines.html">Polylines</a>
+      
+        <ul>
+  
+  <li class=" " data-id="polylines/Polylines/LatLngLocation" data-name="polylines::latlnglocation">
+      <a href="Polylines/LatLngLocation.html">LatLngLocation</a>
+      
+    </li>
+  
+  <li class=" " data-id="polylines/Polylines/Location" data-name="polylines::location">
+      <a href="Polylines/Location.html">Location</a>
+      
+    </li>
+  
+  <li class=" " data-id="polylines/Polylines/LooseLocation" data-name="polylines::looselocation">
+      <a href="Polylines/LooseLocation.html">LooseLocation</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">module</span> Polylines
+
+</h1>
+
+
+
+
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>Encode and decode Google Polylines. To use it:</p>
+
+<pre><code class="language-crystal"><span class="t">Polylines</span>.encode([{lat: <span class="n">38.5</span>, lng: <span class="n">-120.2</span>}, {lat: <span class="n">40.7</span>, lng: <span class="n">-120.95</span>}])
+<span class="t">Polylines</span>.encode([[<span class="n">38.5</span>, <span class="n">-120.2</span>], [<span class="n">40.7</span>, <span class="n">-120.95</span>]])
+<span class="t">Polylines</span>.encode([{<span class="n">38.5</span>, <span class="n">-120.2</span>}, {<span class="n">40.7</span>, <span class="n">-120.95</span>}])
+<span class="c"># =&gt; &quot;_p~iF~ps|U_ulLnnqC&quot;</span>
+
+<span class="t">Polylines</span>.decode(<span class="s">&quot;_p~iF~ps|U_ulLnnqC&quot;</span>)
+<span class="c"># =&gt; [{lat: 38.5, lng: -120.2}, {lat: 40.7, lng: -120.95}]</span></code></pre>
+
+<p>You can also set precision in both methods as the second positionnal argument
+It will correspond to the number of values after the comma.</p>
+
+<p>Please <strong>do not</strong> set precision to more than 10...</p>
+
+<p><a href="https://www.explainxkcd.com/wiki/index.php/2170:_Coordinate_Precision"><img src="https://imgs.xkcd.com/comics/coordinate_precision.png" alt="40 digits: You are optimistic about our understanding of the nature of distance itself."/></a></p>
+
+
+
+
+
+
+
+  <h2>
+    <a id="extended-modules" class="anchor" href="#extended-modules">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Extended Modules
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type"><a href="Polylines.html">Polylines</a></li>
+    
+  </ul>
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/BuonOmo/polylines.cr/blob/v0.2.0/src/polylines.cr#L19" target="_blank">
+        polylines.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+  
+    <h2>
+      <a id="constant-summary" class="anchor" href="#constant-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+      Constant Summary
+    </h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="VERSION">
+        <strong>VERSION</strong> = <code><span class="s">&quot;0.2.0&quot;</span></code>
+      </dt>
+      
+    
+  </dl>
+
+
+
+
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#decode(polyline:String,precision:UInt8=5):Array(Location)-instance-method" class="signature"><strong>#decode</strong>(polyline : String, precision : UInt8 = <span class="n">5</span>) : Array(Location)</a>
+        
+          <div class="summary"><p>Decode a polyline string to an array of tuple <code>{lat:, lng:}</code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#encode(points:Array(LooseLocation),precision:UInt8=5):String-instance-method" class="signature"><strong>#encode</strong>(points : Array(LooseLocation), precision : UInt8 = <span class="n">5</span>) : String</a>
+        
+          <div class="summary"><p>Encode an array of tuple <code>{lat:, lng:}</code> to a polyline string.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+</div>
+
+
+
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="decode(polyline:String,precision:UInt8=5):Array(Location)-instance-method">
+      <div class="signature">
+        
+        def <strong>decode</strong>(polyline : String, precision : UInt8 = <span class="n">5</span>) : Array(<a href="Polylines/Location.html">Location</a>)
+
+        <a class="method-permalink" href="#decode(polyline:String,precision:UInt8=5):Array(Location)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Decode a polyline string to an array of tuple <code>{lat:, lng:}</code>.
+The <code>precision</code> corresponds to the number of values after the
+comma, usually between 0 and 9.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/BuonOmo/polylines.cr/blob/v0.2.0/src/polylines.cr#L34" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="encode(points:Array(LooseLocation),precision:UInt8=5):String-instance-method">
+      <div class="signature">
+        
+        def <strong>encode</strong>(points : Array(<a href="Polylines/LooseLocation.html">LooseLocation</a>), precision : UInt8 = <span class="n">5</span>) : String
+
+        <a class="method-permalink" href="#encode(points:Array(LooseLocation),precision:UInt8=5):String-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Encode an array of tuple <code>{lat:, lng:}</code> to a polyline string.
+The <code>precision</code> corresponds to the number of values after the
+comma, usually between 0 and 9</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/BuonOmo/polylines.cr/blob/v0.2.0/src/polylines.cr#L72" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>
