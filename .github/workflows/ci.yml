@@ -9,15 +9,15 @@ on:
 jobs:
   test:
     strategy:
-    strategy:
       fail-fast: false
       matrix:
         include:
-          - {os: ubuntu-latest, crystal: latest, doc: true}
-          - {os: ubuntu-latest, crystal: nightly}
-          - {os: macos-latest}
-          - {os: windows-latest}
-    runs-on: ${{matrix.os}}
+          - {os: ubuntu, crystal: latest, doc: true}
+          - {os: ubuntu, crystal: nightly}
+          - {os: macos}
+          - {os: windows}
+    runs-on: ${{matrix.os}}-latest
+    name: crystal=${{ matrix.crystal }} os=${{ matrix.os }}
     steps:
       - uses: crystal-lang/install-crystal@v1
         with:
@@ -27,11 +27,11 @@ jobs:
       - run: crystal spec
       - run: crystal tool format && git diff --exit-code
         if: matrix.crystal == 'latest'
-      - run: crystal docs
-        if: matrix.doc
-      - name: Deploy doc 🚀
+      - run: crystal docs
+        if: matrix.doc && github.repository_owner == 'BuonOmo' && github.event_name == 'push' && github.ref == 'refs/heads/master'
+      - name: Deploy doc
         uses: JamesIves/github-pages-deploy-action@4.1.4
-        if: matrix.doc
+        if: matrix.doc && github.repository_owner == 'BuonOmo' && github.event_name == 'push' && github.ref == 'refs/heads/master'
         with:
           branch: gh-pages
           folder: docs
