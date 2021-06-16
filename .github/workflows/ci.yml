@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 0 * * 0' # weekly
+
+jobs:
+  test:
+    strategy:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {os: ubuntu-latest, crystal: latest, doc: true}
+          - {os: ubuntu-latest, crystal: nightly}
+          - {os: macos-latest}
+          - {os: windows-latest}
+    runs-on: ${{matrix.os}}
+    steps:
+      - uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: ${{matrix.crystal}}
+      - uses: actions/checkout@v2
+      - run: shards install
+      - run: crystal spec
+      - run: crystal tool format && git diff --exit-code
+        if: matrix.crystal == 'latest'
+      - run: crystal docs
+        if: matrix.doc
+      - name: Deploy doc 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        if: matrix.doc
+        with:
+          branch: gh-pages
+          folder: docs
