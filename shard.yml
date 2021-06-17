@@ -1,15 +1,15 @@
 name: polylines
-version: 0.1.0
+version: 1.0.0
 description: |
   Geographic line (serie of locations) compression algorithm.
 
 repository: https://github.com/BuonOmo/polylines.cr
 homepage: https://github.com/BuonOmo/polylines.cr#readme
-documentation:
+documentation: https://BuonOmo.github.io/polylines.cr/
 
 authors:
   - Ulysse Buonomo <buonomo.ulysse@gmail.com>
 
-crystal: 0.35.1
+crystal: 1.0.0
 
 license: MIT
