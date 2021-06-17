@@ -2,7 +2,7 @@
 
 
 [![Release](https://img.shields.io/github/release/BuonOmo/polylines.cr.svg)](https://github.com/BuonOmo/polylines.cr/releases)
-[![Build Status](https://travis-ci.org/BuonOmo/polylines.cr.svg?branch=master)](https://travis-ci.org/BuonOmo/polylines.cr)
+[![Build Status](https://github.com/BuonOmo/polylines.cr/workflows/CI/badge.svg)](https://github.com/BuonOmo/polylines.cr/actions?query=workflow%3A%22CI%22+event%3Apush+branch%3Amain)
 [![Docs](https://img.shields.io/badge/docs-available-brightgreen.svg)](https://buonomo.github.io/polylines.cr/)
 
 
